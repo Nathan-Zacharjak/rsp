@@ -1,27 +1,25 @@
 #ifndef _NODE_
 #define _NODE_
 
-template <typename T>
 class Node
 {
 private:
 public:
-    T data;
+    int data;
     Node *nextNode;
     Node *prevNode;
-    Node();
+    Node(int data);
     ~Node();
 };
 
-template <typename T>
-Node<T>::Node()
+Node::Node(int data)
 {
+    this->data = data;
     this->nextNode = nullptr;
     this->prevNode = nullptr;
 }
 
-template <typename T>
-Node<T>::~Node()
+Node::~Node()
 {
 }
 
