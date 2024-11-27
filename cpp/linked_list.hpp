@@ -1,7 +1,7 @@
 #ifndef _LINKED_LIST_
 #define _LINKED_LIST_
 
-#include <node.hpp>
+#include "node.hpp"
 #include <iostream>
 
 using namespace std;
@@ -17,8 +17,8 @@ public:
     void Push(T data);
     Node<T> *Find(T data);
     void Remove(T data);
-    void Print(bool backwards);
-    Node<T> *Pop(void);
+    void Print();
+    // T *Pop();
     LinkedList();
     ~LinkedList();
 };
@@ -28,21 +28,36 @@ void LinkedList<T>::Push(T data)
 {
     Node<T> *newNode = new Node<T>;
     newNode->data = data;
-    Node<T> *oldHead = this->head;
-    oldHead->prevNode = newNode;
-    newNode->nextNode = oldHead;
+
+    if (this->head != nullptr)
+    {
+        this->head->prevNode = newNode;
+    }
+    else if (this->tail == nullptr)
+    {
+        this->tail = newNode;
+    }
+
+    newNode->nextNode = this->head;
     this->head = newNode;
 }
 
 template <typename T>
 Node<T> *LinkedList<T>::Find(T data)
 {
-    Node<T> *currentNode = head;
-    while (currentNode != nullptr)
+    Node<T> *currentNode = this->head;
+
+    while (currentNode->nextNode != nullptr)
     {
+        if (currentNode->data == data)
+        {
+            return currentNode;
+        }
+
         currentNode = currentNode->nextNode;
     }
-    return currentNode;
+
+    return nullptr;
 }
 
 template <typename T>
@@ -64,47 +79,52 @@ void LinkedList<T>::Remove(T data)
 }
 
 template <typename T>
-void LinkedList<T>::Print(bool backwards = false)
+void LinkedList<T>::Print()
 {
-    if (backwards)
+    if (this->head == nullptr)
     {
-        Node<T> *currentNode = this->tail;
-
-        while (currentNode != nullptr)
-        {
-            cout << currentNode->data << endl;
-            currentNode = currentNode->prevNode;
-        }
+        cout << "Empty list" << endl;
+        return;
     }
-    else
-    {
-        Node<T> *currentNode = this->head;
 
-        while (currentNode != nullptr)
-        {
-            cout << currentNode->data << endl;
-            currentNode = currentNode->nextNode;
-        }
+    Node<T> *currentNode = this->head;
+
+    while (currentNode != nullptr)
+    {
+        cout << currentNode->data << endl;
+        currentNode = currentNode->nextNode;
     }
 }
 
-template <typename T>
-Node<T> *LinkedList<T>::Pop(void)
-{
-    Node<T> oldTail = this->tail;
+// template <typename T>
+// T *LinkedList<T>::Pop()
+// {
+//     if (this->tail == nullptr)
+//     {
+//         cout << "Warning: Popping empty list!" << endl;
+//         return nullptr;
+//     }
 
-    if (oldTail == nullptr)
-    {
-        cout << "Warning: Popping empty list!" << endl;
-        return nullptr;
-    }
+//     T *oldTailData = new T(this->tail->data);
+//     Node<T> *oldTail = this->tail;
+//     // Node<T> *oldTail = this->tail;
 
-    Node<T> newTail = oldTail->prevNode;
-    newTail->nextNode = nullptr;
-    oldTail->prevNode = nullptr;
+//     cout << "Old tail: " << oldTail->data << " Next: " << oldTail->nextNode << " Prev: " << oldTail->prevNode << endl;
 
-    return oldTail;
-}
+//     this->tail->prevNode->nextNode = nullptr;
+//     this->tail = this->tail->prevNode;
+//     delete oldTail;
+
+//     if (this->tail == nullptr)
+//     {
+//         this->head = nullptr;
+//         return oldTailData;
+//     }
+
+//     cout << "Changed tail to: " << this->tail->data << " Next: " << this->tail->nextNode << " Prev: " << this->tail->prevNode << endl;
+
+//     return oldTailData;
+// }
 
 template <typename T>
 LinkedList<T>::LinkedList()
@@ -116,14 +136,14 @@ LinkedList<T>::LinkedList()
 template <typename T>
 LinkedList<T>::~LinkedList()
 {
-    Node<T> currentNode = this->head;
+    Node<T> *currentNode = this->head;
 
     cout << "Deleting list..." << endl;
 
     while (currentNode != nullptr)
     {
-        Node<T> nextNode = currentNode->nextNode;
-        cout << "Deleting node: " << currentNode.data << endl;
+        Node<T> *nextNode = currentNode->nextNode;
+        cout << "Deleting node: " << currentNode->data << endl;
         delete currentNode;
         currentNode = nextNode;
     }

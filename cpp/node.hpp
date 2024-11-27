@@ -6,7 +6,7 @@ class Node
 {
 private:
 public:
-    T *data;
+    T data;
     Node *nextNode;
     Node *prevNode;
     Node();
@@ -16,7 +16,6 @@ public:
 template <typename T>
 Node<T>::Node()
 {
-    this->data = nullptr;
     this->nextNode = nullptr;
     this->prevNode = nullptr;
 }
@@ -24,7 +23,6 @@ Node<T>::Node()
 template <typename T>
 Node<T>::~Node()
 {
-    delete this->data;
 }
 
 #endif
