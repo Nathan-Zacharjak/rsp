@@ -158,6 +158,32 @@ Node *LinkedList::FindByData(int data)
     return nullptr;
 }
 
+Node *LinkedList::FindByIndex(int index)
+{
+    if (index < 1 || index > this->GetLength())
+    {
+        cout << "FindByIndex index: " << index << " out of range!" << endl;
+        return nullptr;
+    }
+
+    Node *currentNode = this->head;
+    int currentIndex = 1;
+
+    while (currentNode != nullptr)
+    {
+        if (currentIndex == index)
+        {
+            return currentNode;
+        }
+
+        currentNode = currentNode->nextNode;
+        currentIndex++;
+    }
+
+    cout << "FindByIndex index: " << index << " out of range!" << endl;
+    return nullptr;
+}
+
 // void LinkedList::Remove(T data)
 // {
 //     Node *removeNode = this->Find(data);
