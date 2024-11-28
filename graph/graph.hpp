@@ -15,6 +15,8 @@ class Graph
 private:
     unordered_map<string, unordered_set<EndNode *>> adjacencyList;
 
+    bool NodeExists(string node);
+
 public:
     Graph();
 
@@ -33,6 +35,11 @@ public:
     ~Graph();
 };
 
+bool Graph::NodeExists(string node)
+{
+    return this->adjacencyList.find(node) != this->adjacencyList.end();
+}
+
 Graph::Graph()
 {
 }
@@ -41,6 +48,21 @@ void Graph::InsertNode(string node)
 {
     unordered_set<EndNode *> emptySet;
     this->adjacencyList[node] = emptySet;
+}
+
+void Graph::InsertEdge(string startNode, string endNode, int weight)
+{
+    if (!this->NodeExists(startNode))
+    {
+        this->InsertNode(startNode);
+    }
+
+    if (!this->NodeExists(endNode))
+    {
+        this->InsertNode(endNode);
+    }
+
+    this->adjacencyList.at(startNode).insert(new EndNode(endNode, weight));
 }
 
 void Graph::PrintEdges(string node)
@@ -57,14 +79,26 @@ void Graph::PrintEdges(string node)
 
 void Graph::PrintGraphEdges(void)
 {
-    for (auto &&keyValuePair : this->adjacencyList)
+    for (auto &&startNodePair : this->adjacencyList)
     {
-        this->PrintEdges(keyValuePair.first);
+        this->PrintEdges(startNodePair.first);
     }
 }
 
 Graph::~Graph()
 {
+    cout << "Deleting Graph..." << endl;
+
+    for (auto &&startNodePair : this->adjacencyList)
+    {
+        cout << "Deleting " << startNodePair.first << "'s edges:" << endl;
+
+        for (auto &&endNode : startNodePair.second)
+        {
+            cout << "To: " << endNode->label << ", weight: " << endNode->weight << endl;
+            delete endNode;
+        }
+    }
 }
 
 #endif
