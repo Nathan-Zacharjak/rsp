@@ -9,11 +9,6 @@ int main(int argc, char const *argv[])
 {
     Graph graph;
 
-    graph.InsertNode("A");
-    graph.InsertNode("B");
-    graph.InsertNode("C");
-    graph.InsertNode("D");
-
     graph.InsertEdge("A", "B", 1);
     graph.InsertEdge("A", "C", 2);
     graph.InsertEdge("B", "C", 10);

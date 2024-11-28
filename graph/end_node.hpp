@@ -18,7 +18,7 @@ public:
 EndNode::EndNode(string label, int weight)
 {
     this->label = label;
-    this->weight = 0;
+    this->weight = weight;
 }
 
 EndNode::~EndNode()

@@ -87,15 +87,11 @@ void Graph::PrintGraphEdges(void)
 
 Graph::~Graph()
 {
-    cout << "Deleting Graph..." << endl;
-
     for (auto &&startNodePair : this->adjacencyList)
     {
-        cout << "Deleting " << startNodePair.first << "'s edges:" << endl;
 
         for (auto &&endNode : startNodePair.second)
         {
-            cout << "To: " << endNode->label << ", weight: " << endNode->weight << endl;
             delete endNode;
         }
     }
