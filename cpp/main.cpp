@@ -15,9 +15,12 @@ int main(int argc, char const *argv[])
     }
     list.PrintForwards();
 
-    cout << "Inserting 99 at index 0:" << endl;
-    list.InsertAtIndex(99, 0);
-    list.PrintForwards();
+    for (int i = 1; i <= 6; i++)
+    {
+        cout << "Deleting front node:" << endl;
+        list.DeleteFront();
+        list.PrintForwards();
+    }
 
     return 0;
 }

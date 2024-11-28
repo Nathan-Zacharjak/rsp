@@ -28,12 +28,12 @@ public:
     Node *FindByData(int data);
     Node *FindByIndex(int index);
 
-    void InsertAtIndex(int data, int index);
+    void InsertByIndex(int data, int index);
 
-    void DeleteFront(int data);
-    void DeleteEnd(int data);
-    void DeleteAtIndex(int index);
+    void DeleteFront(void);
+    void DeleteEnd(void);
     void DeleteByData(int data);
+    void DeleteByIndex(int index);
 
     ~LinkedList();
 };
@@ -168,7 +168,7 @@ Node *LinkedList::FindByIndex(int index)
     return nullptr;
 }
 
-void LinkedList::InsertAtIndex(int data, int index)
+void LinkedList::InsertByIndex(int data, int index)
 {
     Node *newNode = new Node(data);
 
@@ -201,51 +201,25 @@ void LinkedList::InsertAtIndex(int data, int index)
     this->length++;
 }
 
-// void LinkedList::Remove(T data)
-// {
-//     Node *removeNode = this->Find(data);
-//     if (removeNode == nullptr)
-//     {
-//         cout << "Warning: Tried to remove node that does not exist: " << data << endl;
-//         return;
-//     }
+void LinkedList::DeleteFront(void)
+{
+    Node *oldHead = this->head;
 
-//     Node *beforeNode = removeNode->prevNode;
-//     Node *afterNode = removeNode->prevNode;
-//     beforeNode->nextNode = removeNode->nextNode;
-//     afterNode->prevNode = removeNode->prevNode;
+    if (oldHead == nullptr)
+    {
+        cout << "Tried to delete front node on empty list!" << endl;
+        return;
+    }
 
-//     delete removeNode;
-// }
+    Node *newHead = oldHead->nextNode;
+    this->head = newHead;
+    delete oldHead;
 
-// T *LinkedList::Pop()
-// {
-//     if (this->tail == nullptr)
-//     {
-//         cout << "Warning: Popping empty list!" << endl;
-//         return nullptr;
-//     }
-
-//     T *oldTailData = new T(this->tail->data);
-//     Node *oldTail = this->tail;
-//     // Node *oldTail = this->tail;
-
-//     cout << "Old tail: " << oldTail->data << " Next: " << oldTail->nextNode << " Prev: " << oldTail->prevNode << endl;
-
-//     this->tail->prevNode->nextNode = nullptr;
-//     this->tail = this->tail->prevNode;
-//     delete oldTail;
-
-//     if (this->tail == nullptr)
-//     {
-//         this->head = nullptr;
-//         return oldTailData;
-//     }
-
-//     cout << "Changed tail to: " << this->tail->data << " Next: " << this->tail->nextNode << " Prev: " << this->tail->prevNode << endl;
-
-//     return oldTailData;
-// }
+    if (newHead != nullptr)
+    {
+        newHead->prevNode = nullptr;
+    }
+}
 
 LinkedList::~LinkedList()
 {
