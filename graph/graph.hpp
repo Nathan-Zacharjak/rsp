@@ -39,18 +39,19 @@ Graph::Graph()
 
 void Graph::InsertNode(string node)
 {
-    adjacencyList.emplace(node);
+    unordered_set<EndNode *> emptySet;
+    this->adjacencyList[node] = emptySet;
 }
 
-void Graph::PrintEdges(string node)
-{
-    unordered_set<EndNode *> edges = this->adjacencyList.at(node);
+// void Graph::PrintEdges(string node)
+// {
+//     unordered_set<EndNode *> edges = this->adjacencyList.at(node);
 
-    for (const auto &edge : edges)
-    {
-        cout << node << " -> " << edge->label << " Weight: " << edge->weight << endl;
-    }
-}
+//     for (const auto &edge : edges)
+//     {
+//         cout << node << " -> " << edge->label << " Weight: " << edge->weight << endl;
+//     }
+// }
 
 Graph::~Graph()
 {
