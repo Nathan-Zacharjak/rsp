@@ -22,7 +22,7 @@ public:
     void InsertEdge(string startNode, string endNode, int weight);
 
     void PrintEdges(string node);
-    void PrintAllEdges(void);
+    void PrintGraphEdges(void);
 
     EndNode *FindNodeDFS(string node);
     EndNode *FindNodeBFS(string node);
@@ -49,9 +49,17 @@ void Graph::PrintEdges(string node)
 
     cout << "Outward edges of: " << node << " ->" << endl;
 
-    for (auto edge : edges)
+    for (auto &&edge : edges)
     {
         cout << edge->label << " Weight: " << edge->weight << endl;
+    }
+}
+
+void Graph::PrintGraphEdges(void)
+{
+    for (auto &&keyValuePair : this->adjacencyList)
+    {
+        this->PrintEdges(keyValuePair.first);
     }
 }
 
