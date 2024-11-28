@@ -249,6 +249,36 @@ void LinkedList::DeleteEnd(void)
     this->tail = newTail;
 }
 
+void LinkedList::DeleteByData(int data)
+{
+    Node *deleteNode = this->FindByData(data);
+
+    if (deleteNode == nullptr)
+    {
+        cout << "Couldn't find node to delete with data: " << data << endl;
+        return;
+    }
+
+    if (deleteNode->prevNode == nullptr)
+    {
+        this->DeleteFront();
+        return;
+    }
+
+    if (deleteNode->nextNode == nullptr)
+    {
+        this->DeleteEnd();
+        return;
+    }
+
+    Node *forwardNode = deleteNode->nextNode;
+    Node *behindNode = deleteNode->prevNode;
+    forwardNode->prevNode = behindNode;
+    behindNode->nextNode = forwardNode;
+
+    delete deleteNode;
+}
+
 LinkedList::~LinkedList()
 {
     Node *currentNode = this->head;
