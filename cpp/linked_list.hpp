@@ -23,6 +23,9 @@ public:
     void InsertEnd(int data);
     void InsertAtIndex(int index);
 
+    void PrintForwards(void);
+    void PrintBackwards(void);
+
     Node *FindByData(int data);
     Node *FindByIndex(int index);
 
@@ -30,9 +33,6 @@ public:
     void DeleteEnd(int data);
     void DeleteAtIndex(int index);
     void DeleteByData(int data);
-
-    void PrintForwards(void);
-    void PrintBackwards(void);
 
     ~LinkedList();
 };
@@ -50,7 +50,7 @@ int LinkedList::GetLength(void)
 
 bool LinkedList::IsEmpty(void)
 {
-    return this->length == 0;
+    return this->head == nullptr;
 }
 
 void LinkedList::InsertFront(int data)
@@ -61,20 +61,48 @@ void LinkedList::InsertFront(int data)
     {
         this->head = newNode;
         this->tail = newNode;
+        return;
     }
 
-    if (this->head != nullptr)
-    {
-        this->head->prevNode = newNode;
-    }
-    else if (this->tail == nullptr)
-    {
-        this->tail = newNode;
-    }
-
+    this->head->prevNode = newNode;
     newNode->nextNode = this->head;
     this->head = newNode;
+    this->length++;
 }
+
+void LinkedList::PrintForwards()
+{
+    if (this->IsEmpty())
+    {
+        cout << "*Empty list*" << endl;
+        return;
+    }
+
+    Node *currentNode = this->head;
+
+    while (currentNode != nullptr)
+    {
+        cout << currentNode->data << endl;
+        currentNode = currentNode->nextNode;
+    }
+}
+
+// void LinkedList::PrintBackwards()
+// {
+//     if (this->IsEmpty())
+//     {
+//         cout << "*Empty list*" << endl;
+//         return;
+//     }
+
+//     Node *currentNode = this->head;
+
+//     while (currentNode != nullptr)
+//     {
+//         cout << currentNode->data << endl;
+//         currentNode = currentNode->nextNode;
+//     }
+// }
 
 // Node *LinkedList::Find(T data)
 // {
@@ -110,23 +138,6 @@ void LinkedList::InsertFront(int data)
 //     delete removeNode;
 // }
 
-// void LinkedList::Print()
-// {
-//     if (this->head == nullptr)
-//     {
-//         cout << "Empty list" << endl;
-//         return;
-//     }
-
-//     Node *currentNode = this->head;
-
-//     while (currentNode != nullptr)
-//     {
-//         cout << currentNode->data << endl;
-//         currentNode = currentNode->nextNode;
-//     }
-// }
-
 // T *LinkedList::Pop()
 // {
 //     if (this->tail == nullptr)
@@ -156,19 +167,19 @@ void LinkedList::InsertFront(int data)
 //     return oldTailData;
 // }
 
-// LinkedList::~LinkedList()
-// {
-//     Node *currentNode = this->head;
+LinkedList::~LinkedList()
+{
+    Node *currentNode = this->head;
 
-//     cout << "Deleting list..." << endl;
+    cout << "Deleting list..." << endl;
 
-//     while (currentNode != nullptr)
-//     {
-//         Node *nextNode = currentNode->nextNode;
-//         cout << "Deleting node: " << currentNode->data << endl;
-//         delete currentNode;
-//         currentNode = nextNode;
-//     }
-// }
+    while (currentNode != nullptr)
+    {
+        Node *nextNode = currentNode->nextNode;
+        cout << "Deleting node: " << currentNode->data << endl;
+        delete currentNode;
+        currentNode = nextNode;
+    }
+}
 
 #endif

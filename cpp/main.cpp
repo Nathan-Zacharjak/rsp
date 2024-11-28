@@ -7,7 +7,7 @@ int main(int argc, char const *argv[])
 {
     LinkedList list;
 
-    for (int i = 0; i < 5; i++)
+    for (int i = 1; i <= 5; i++)
     {
         cout << "Inserting " << i << endl;
         list.InsertFront(i);
