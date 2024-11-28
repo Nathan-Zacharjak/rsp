@@ -58,6 +58,7 @@ bool LinkedList::IsEmpty(void)
 void LinkedList::InsertFront(int data)
 {
     Node *newNode = new Node(data);
+    this->length++;
 
     if (this->IsEmpty())
     {
@@ -69,12 +70,12 @@ void LinkedList::InsertFront(int data)
     this->head->prevNode = newNode;
     newNode->nextNode = this->head;
     this->head = newNode;
-    this->length++;
 }
 
 void LinkedList::InsertEnd(int data)
 {
     Node *newNode = new Node(data);
+    this->length++;
 
     if (this->IsEmpty())
     {
@@ -86,24 +87,7 @@ void LinkedList::InsertEnd(int data)
     this->tail->nextNode = newNode;
     newNode->prevNode = this->tail;
     this->tail = newNode;
-    this->length++;
 }
-
-// void LinkedList::InsertAtIndex(int data, int index)
-// {
-//     Node *newNode = new Node(data);
-
-//     if (index > this->length || index < 1)
-//     {
-//         cout << "Insert index: " << index << " out of range." << endl;
-//         return;
-//     }
-
-//     this->tail->nextNode = newNode;
-//     newNode->prevNode = this->tail;
-//     this->tail = newNode;
-//     this->length++;
-// }
 
 void LinkedList::PrintForwards()
 {
@@ -162,7 +146,7 @@ Node *LinkedList::FindByIndex(int index)
 {
     if (index < 1 || index > this->GetLength())
     {
-        cout << "FindByIndex index: " << index << " out of range!" << endl;
+        cout << "FindByIndex index: " << index << " out of range! Index non-positive or over list length " << this->GetLength() << endl;
         return nullptr;
     }
 
@@ -180,8 +164,41 @@ Node *LinkedList::FindByIndex(int index)
         currentIndex++;
     }
 
-    cout << "FindByIndex index: " << index << " out of range!" << endl;
+    cout << "FindByIndex index: " << index << " out of range! Couldn't find index!" << endl;
     return nullptr;
+}
+
+void LinkedList::InsertAtIndex(int data, int index)
+{
+    Node *newNode = new Node(data);
+
+    if (index == 1)
+    {
+        this->InsertFront(data);
+        return;
+    }
+
+    if (index == this->GetLength() + 1)
+    {
+        this->InsertEnd(data);
+        return;
+    }
+
+    Node *oldNode = this->FindByIndex(index);
+
+    if (oldNode == nullptr)
+    {
+        cout << "Tried to insert node with data: " << data << " in index out of range: " << index << endl;
+        return;
+    }
+
+    newNode->prevNode = oldNode->prevNode;
+    oldNode->prevNode->nextNode = newNode;
+
+    oldNode->prevNode = newNode;
+    newNode->nextNode = oldNode;
+
+    this->length++;
 }
 
 // void LinkedList::Remove(T data)

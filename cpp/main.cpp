@@ -15,12 +15,9 @@ int main(int argc, char const *argv[])
     }
     list.PrintForwards();
 
-    cout << "Finding node with index 3: " << list.FindByIndex(3)->data << endl;
-    cout << "Finding node with index 99: " << list.FindByIndex(-99) << endl;
-    cout << "Finding node with index 99: " << list.FindByIndex(99) << endl;
-
-    // list.InsertAtIndex(99, 3);
-    // list.PrintForwards();
+    cout << "Inserting 99 at index 0:" << endl;
+    list.InsertAtIndex(99, 0);
+    list.PrintForwards();
 
     return 0;
 }
