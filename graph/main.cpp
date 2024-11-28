@@ -9,7 +9,7 @@ int main(int argc, char const *argv[])
 {
     Graph graph;
 
-    // graph.InsertNode("A");
+    graph.InsertNode("A");
     // graph.InsertNode("B");
     // graph.InsertNode("C");
     // graph.InsertNode("D");
@@ -20,7 +20,7 @@ int main(int argc, char const *argv[])
     // // graph.InsertEdge("B", "D", 1);
     // // graph.InsertEdge("C", "D", 2);
 
-    // graph.PrintEdges("A");
+    graph.PrintEdges("A");
 
     return 0;
 }
