@@ -87,22 +87,22 @@ void LinkedList::PrintForwards()
     }
 }
 
-// void LinkedList::PrintBackwards()
-// {
-//     if (this->IsEmpty())
-//     {
-//         cout << "*Empty list*" << endl;
-//         return;
-//     }
+void LinkedList::PrintBackwards()
+{
+    if (this->IsEmpty())
+    {
+        cout << "*Empty list*" << endl;
+        return;
+    }
 
-//     Node *currentNode = this->head;
+    Node *currentNode = this->tail;
 
-//     while (currentNode != nullptr)
-//     {
-//         cout << currentNode->data << endl;
-//         currentNode = currentNode->nextNode;
-//     }
-// }
+    while (currentNode != nullptr)
+    {
+        cout << currentNode->data << endl;
+        currentNode = currentNode->prevNode;
+    }
+}
 
 // Node *LinkedList::Find(T data)
 // {
