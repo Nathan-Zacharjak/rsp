@@ -15,27 +15,14 @@ int main(int argc, char const *argv[])
     }
     list.PrintForwards();
 
-    cout << "Deleting node with data: " << 6 << endl;
-    list.DeleteByData(6);
-    list.PrintForwards();
-    cout << "Deleting node with data: " << 8 << endl;
-    list.DeleteByData(8);
-    list.PrintForwards();
-    cout << "Deleting node with data: " << 4 << endl;
-    list.DeleteByData(4);
-    list.PrintForwards();
-    cout << "Deleting node with data: " << 44 << endl;
-    list.DeleteByData(44);
-    list.PrintForwards();
-    cout << "Deleting node with data: " << 10 << endl;
-    list.DeleteByData(10);
-    list.PrintForwards();
-    cout << "Deleting node with data: " << 2 << endl;
-    list.DeleteByData(2);
-    list.PrintForwards();
-    cout << "Deleting node with data: " << 1 << endl;
-    list.DeleteByData(1);
-    list.PrintForwards();
+    int indexes[7] = {3, 5, 1, 2, 1, 1, 7};
+
+    for (int i = 0; i < 7; i++)
+    {
+        cout << "Deleting by index :" << indexes[i] << endl;
+        list.DeleteByIndex(indexes[i]);
+        list.PrintForwards();
+    }
 
     return 0;
 }
