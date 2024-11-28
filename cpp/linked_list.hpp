@@ -21,13 +21,14 @@ public:
 
     void InsertFront(int data);
     void InsertEnd(int data);
-    void InsertAtIndex(int index);
 
     void PrintForwards(void);
     void PrintBackwards(void);
 
     Node *FindByData(int data);
     Node *FindByIndex(int index);
+
+    void InsertAtIndex(int data, int index);
 
     void DeleteFront(int data);
     void DeleteEnd(int data);
@@ -88,6 +89,22 @@ void LinkedList::InsertEnd(int data)
     this->length++;
 }
 
+// void LinkedList::InsertAtIndex(int data, int index)
+// {
+//     Node *newNode = new Node(data);
+
+//     if (index > this->length || index < 1)
+//     {
+//         cout << "Insert index: " << index << " out of range." << endl;
+//         return;
+//     }
+
+//     this->tail->nextNode = newNode;
+//     newNode->prevNode = this->tail;
+//     this->tail = newNode;
+//     this->length++;
+// }
+
 void LinkedList::PrintForwards()
 {
     if (this->IsEmpty())
@@ -122,22 +139,24 @@ void LinkedList::PrintBackwards()
     }
 }
 
-// Node *LinkedList::Find(T data)
-// {
-//     Node *currentNode = this->head;
+Node *LinkedList::FindByData(int data)
+{
+    Node *currentNode = this->head;
 
-//     while (currentNode->nextNode != nullptr)
-//     {
-//         if (currentNode->data == data)
-//         {
-//             return currentNode;
-//         }
+    while (currentNode != nullptr)
+    {
+        if (currentNode->data == data)
+        {
+            return currentNode;
+        }
 
-//         currentNode = currentNode->nextNode;
-//     }
+        currentNode = currentNode->nextNode;
+    }
 
-//     return nullptr;
-// }
+    cout << "Node with data: " << data << " not found!" << endl;
+
+    return nullptr;
+}
 
 // void LinkedList::Remove(T data)
 // {

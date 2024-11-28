@@ -9,10 +9,19 @@ int main(int argc, char const *argv[])
 
     for (int i = 1; i <= 5; i++)
     {
-        cout << "Inserting " << i << endl;
-        list.InsertEnd(i);
-        list.PrintForwards();
+        int value = i * 2;
+        cout << "Inserting " << value << endl;
+        list.InsertEnd(value);
     }
+    list.PrintForwards();
+
+    cout << "Finding node with data 4: " << list.FindByData(4)->data << endl;
+    cout << "Finding node with data 99: " << list.FindByData(99) << endl;
+    // cout << "Finding node with index 3: " << list.FindByIndex(3) << endl;
+    // cout << "Finding node with index 99: " << list.FindByIndex(99) << endl;
+
+    // list.InsertAtIndex(99, 3);
+    // list.PrintForwards();
 
     return 0;
 }
