@@ -10,7 +10,7 @@ int main(int argc, char const *argv[])
     for (int i = 1; i <= 5; i++)
     {
         cout << "Inserting " << i << endl;
-        list.InsertFront(i);
+        list.InsertEnd(i);
         list.PrintForwards();
     }
 

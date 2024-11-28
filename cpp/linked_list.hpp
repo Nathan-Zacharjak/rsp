@@ -41,6 +41,7 @@ LinkedList::LinkedList()
 {
     head = nullptr;
     tail = nullptr;
+    length = 0;
 }
 
 int LinkedList::GetLength(void)
@@ -67,6 +68,23 @@ void LinkedList::InsertFront(int data)
     this->head->prevNode = newNode;
     newNode->nextNode = this->head;
     this->head = newNode;
+    this->length++;
+}
+
+void LinkedList::InsertEnd(int data)
+{
+    Node *newNode = new Node(data);
+
+    if (this->IsEmpty())
+    {
+        this->head = newNode;
+        this->tail = newNode;
+        return;
+    }
+
+    this->tail->nextNode = newNode;
+    newNode->prevNode = this->tail;
+    this->tail = newNode;
     this->length++;
 }
 
