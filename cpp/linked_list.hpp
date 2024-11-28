@@ -212,13 +212,41 @@ void LinkedList::DeleteFront(void)
     }
 
     Node *newHead = oldHead->nextNode;
-    this->head = newHead;
     delete oldHead;
 
-    if (newHead != nullptr)
+    if (newHead == nullptr)
     {
-        newHead->prevNode = nullptr;
+        this->head = nullptr;
+        this->tail = nullptr;
+        return;
     }
+
+    newHead->prevNode = nullptr;
+    this->head = newHead;
+}
+
+void LinkedList::DeleteEnd(void)
+{
+    Node *oldTail = this->tail;
+
+    if (oldTail == nullptr)
+    {
+        cout << "Tried to delete end node on empty list!" << endl;
+        return;
+    }
+
+    Node *newTail = oldTail->prevNode;
+    delete oldTail;
+
+    if (newTail == nullptr)
+    {
+        this->tail = nullptr;
+        this->head = nullptr;
+        return;
+    }
+
+    newTail->nextNode = nullptr;
+    this->tail = newTail;
 }
 
 LinkedList::~LinkedList()

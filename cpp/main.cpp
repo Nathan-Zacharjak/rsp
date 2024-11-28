@@ -17,8 +17,8 @@ int main(int argc, char const *argv[])
 
     for (int i = 1; i <= 6; i++)
     {
-        cout << "Deleting front node:" << endl;
-        list.DeleteFront();
+        cout << "Deleting end node:" << endl;
+        list.DeleteEnd();
         list.PrintForwards();
     }
 
