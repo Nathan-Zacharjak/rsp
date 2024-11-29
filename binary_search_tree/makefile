@@ -1,7 +1,7 @@
 all: compile run
 
-compile: main.cpp
-	g++ -O2 -Wall -std=c++11 -o main.exe main.cpp
+compile: tree.cpp main.cpp
+	g++ -O2 -Wall -std=c++23 -o main.exe tree.cpp main.cpp 
 
 run: main.exe
 	./main.exe

@@ -1,30 +1,38 @@
-#ifndef _TREE_HPP_
-#define _TREE_HPP_
+#ifndef TREE_HPP
+#define TREE_HPP
 
-#include "node.hpp"
-#include <iostream>
+// #include "tree_node.hpp"
+enum class TreePrintOrder
+{
+    PRE_ORDER,
+    IN_ORDER,
+    POST_ORDER
+};
 
-using namespace std;
+struct TreeNode
+{
+    int data = 0;
+    TreeNode *parent = nullptr;
+    TreeNode *left = nullptr;
+    TreeNode *right = nullptr;
+};
 
 class Tree
 {
 private:
-    Node *root;
+    TreeNode *root = nullptr;
+
+    void InsertNodeHelper(int data, TreeNode *currentNode, TreeNode *currentParent);
 
 public:
-    Tree();
+    Tree() = default;
 
-    void InsertNode();
+    void InsertNode(int data);
+    void PrintTree(TreePrintOrder order = TreePrintOrder::IN_ORDER);
+    TreeNode *SearchTree(int data);
+    void DeleteNode(int data);
 
-    ~Tree();
+    virtual ~Tree() = default;
 };
-
-Tree::Tree()
-{
-}
-
-Tree::~Tree()
-{
-}
 
 #endif
