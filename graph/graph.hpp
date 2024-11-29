@@ -243,6 +243,40 @@ void Graph::DeleteEdge(string startNode, string endNode)
     }
 }
 
+void Graph::DeleteNode(string node)
+{
+    if (!this->NodeExists(node))
+    {
+        return;
+    }
+
+    for (auto &&edge : this->adjacencyList.at(node))
+    {
+        delete edge;
+    }
+
+    this->adjacencyList.erase(node);
+
+    for (auto &&startNodePair : this->adjacencyList)
+    {
+        EdgeSet edgesToDelete;
+
+        for (auto &&edge : startNodePair.second)
+        {
+            if (edge->label == node)
+            {
+                edgesToDelete.insert(edge);
+                delete edge;
+            }
+        }
+
+        for (auto &&edge : edgesToDelete)
+        {
+            this->adjacencyList.at(startNodePair.first).erase(edge);
+        }
+    }
+}
+
 Graph::~Graph()
 {
     for (auto &&startNodePair : this->adjacencyList)
