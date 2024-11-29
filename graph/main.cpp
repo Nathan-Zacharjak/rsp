@@ -24,16 +24,9 @@ int main(int argc, char const *argv[])
 
     graph.PrintGraphEdges();
 
-    Edge *node = graph.FindNodeBFS("A", "E");
+    graph.DeleteEdge("A", "B");
 
-    if (node != nullptr)
-    {
-        cout << "Found node: " << node->label << " from edge of weight: " << node->weight << endl;
-    }
-    else
-    {
-        cout << "Couldn't find node!" << endl;
-    }
+    graph.PrintGraphEdges();
 
     return 0;
 }

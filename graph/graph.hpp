@@ -35,7 +35,7 @@ public:
     Edge *FindNodeDFS(string startNode, string node);
     Edge *FindNodeBFS(string startNode, string node);
 
-    void DeleteEdge(string startNode, string edge);
+    void DeleteEdge(string startNode, string endNode);
     void DeleteNode(string deleteNode);
 
     ~Graph();
@@ -91,6 +91,39 @@ void Graph::PrintGraphEdges(void)
     }
 }
 
+EdgeSet *Graph::InitializeSearch(string startNode, string node)
+{
+    if (node == startNode)
+    {
+        cout << "Tried to start a search for node " << node << " starting with that node!" << endl;
+        return nullptr;
+    }
+
+    if (!this->NodeExists(startNode))
+    {
+        cout << "Start node not found in graph: " << startNode << endl;
+        return nullptr;
+    }
+
+    if (!this->NodeExists(node))
+    {
+        cout << "End node not found in graph: " << node << endl;
+        return nullptr;
+    }
+
+    EdgeSet *startNodeEdges = &this->adjacencyList.at(node);
+
+    if (startNodeEdges->empty())
+    {
+        cout << "Tried to start a search for node " << node << " from a node with no edges: " << startNode << endl;
+        return nullptr;
+    }
+
+    foundNodes.clear();
+
+    return startNodeEdges;
+}
+
 Edge *Graph::FindNodeDFSHelper(string nodeToFind, string currentNode, Edge *lastEdge)
 {
 
@@ -122,39 +155,6 @@ Edge *Graph::FindNodeDFSHelper(string nodeToFind, string currentNode, Edge *last
     cout << "Backtracking from node " << currentNode << endl;
 
     return nullptr;
-}
-
-EdgeSet *Graph::InitializeSearch(string startNode, string node)
-{
-    if (node == startNode)
-    {
-        cout << "Tried to start a search for node " << node << " starting with that node!" << endl;
-        return nullptr;
-    }
-
-    if (this->adjacencyList.count(startNode) == 0)
-    {
-        cout << "Start node not found in graph: " << startNode << endl;
-        return nullptr;
-    }
-
-    if (this->adjacencyList.count(node) == 0)
-    {
-        cout << "End node not found in graph: " << node << endl;
-        return nullptr;
-    }
-
-    EdgeSet *startNodeEdges = &this->adjacencyList.at(node);
-
-    if (startNodeEdges->empty())
-    {
-        cout << "Tried to start a search for node " << node << " from a node with no edges: " << startNode << endl;
-        return nullptr;
-    }
-
-    foundNodes.clear();
-
-    return startNodeEdges;
 }
 
 Edge *Graph::FindNodeDFS(string startNode, string node)
@@ -216,6 +216,31 @@ Edge *Graph::FindNodeBFS(string startNode, string node)
     }
 
     return nullptr;
+}
+
+void Graph::DeleteEdge(string startNode, string endNode)
+{
+    if (!this->NodeExists(startNode) || !this->NodeExists(endNode))
+    {
+        return;
+    }
+
+    Edge *edgeToDelete = nullptr;
+
+    for (auto &&edge : this->adjacencyList.at(startNode))
+    {
+        if (edge->label == endNode)
+        {
+            edgeToDelete = edge;
+            break;
+        }
+    }
+
+    if (edgeToDelete != nullptr)
+    {
+        this->adjacencyList.at(startNode).erase(edgeToDelete);
+        delete edgeToDelete;
+    }
 }
 
 Graph::~Graph()
