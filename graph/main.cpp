@@ -24,11 +24,15 @@ int main(int argc, char const *argv[])
 
     graph.PrintGraphEdges();
 
-    Edge *node = graph.FindNodeDFS("B", "A");
+    Edge *node = graph.FindNodeBFS("A", "E");
 
     if (node != nullptr)
     {
         cout << "Found node: " << node->label << " from edge of weight: " << node->weight << endl;
+    }
+    else
+    {
+        cout << "Couldn't find node!" << endl;
     }
 
     return 0;

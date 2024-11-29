@@ -6,18 +6,21 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <queue>
 
 using namespace std;
 
 typedef unordered_set<Edge *> EdgeSet;
+typedef unordered_set<string> NodeSet;
 
 class Graph
 {
 private:
     unordered_map<string, EdgeSet> adjacencyList;
-    unordered_set<string> exploredNodes;
+    NodeSet foundNodes;
 
     bool NodeExists(string node);
+    EdgeSet *InitializeSearch(string startNode, string node);
     Edge *FindNodeDFSHelper(string nodeToFind, string currentNode, Edge *lastEdge);
 
 public:
@@ -29,8 +32,8 @@ public:
     void PrintEdges(string node);
     void PrintGraphEdges(void);
 
-    Edge *FindNodeDFS(string node, string startNode);
-    Edge *FindNodeBFS(string node, string startNode);
+    Edge *FindNodeDFS(string startNode, string node);
+    Edge *FindNodeBFS(string startNode, string node);
 
     void DeleteEdge(string startNode, string edge);
     void DeleteNode(string deleteNode);
@@ -96,26 +99,23 @@ Edge *Graph::FindNodeDFSHelper(string nodeToFind, string currentNode, Edge *last
         return lastEdge;
     }
 
-    this->exploredNodes.insert(currentNode);
+    this->foundNodes.insert(currentNode);
     Edge *foundEdge = nullptr;
 
     for (auto &&edge : this->adjacencyList.at(currentNode))
     {
-        string nextNode = edge->label;
-
-        if (this->exploredNodes.count(nextNode) == 0)
+        if (this->foundNodes.count(edge->label) != 0)
         {
-            cout << "Exploring edge from " << currentNode << " to " << nextNode << endl;
-            foundEdge = this->FindNodeDFSHelper(nodeToFind, nextNode, edge);
-
-            if (foundEdge != nullptr)
-            {
-                return foundEdge;
-            }
+            cout << "Skipping edge from " << currentNode << " to " << edge->label << endl;
+            continue;
         }
-        else
+
+        cout << "Exploring edge from " << currentNode << " to " << edge->label << endl;
+        foundEdge = this->FindNodeDFSHelper(nodeToFind, edge->label, edge);
+
+        if (foundEdge != nullptr)
         {
-            cout << "Skipping edge from " << currentNode << " to " << nextNode << endl;
+            return foundEdge;
         }
     }
 
@@ -124,26 +124,98 @@ Edge *Graph::FindNodeDFSHelper(string nodeToFind, string currentNode, Edge *last
     return nullptr;
 }
 
-Edge *Graph::FindNodeDFS(string node, string startNode)
+EdgeSet *Graph::InitializeSearch(string startNode, string node)
 {
-    EdgeSet startNodeEdges = this->adjacencyList.at(startNode);
-
-    if (startNodeEdges.empty())
-    {
-        cout << "Tried to start a DFS for node " << node << " from a node with no edges: " << startNode << endl;
-        return nullptr;
-    }
-
     if (node == startNode)
     {
-        cout << "Tried to start a DFS for node " << node << " starting with that node!" << endl;
+        cout << "Tried to start a search for node " << node << " starting with that node!" << endl;
         return nullptr;
     }
 
-    exploredNodes.clear();
-    Edge *arbitraryEdge = *(this->adjacencyList.at(startNode).begin());
+    if (this->adjacencyList.count(startNode) == 0)
+    {
+        cout << "Start node not found in graph: " << startNode << endl;
+        return nullptr;
+    }
 
-    return this->FindNodeDFSHelper(node, startNode, arbitraryEdge);
+    if (this->adjacencyList.count(node) == 0)
+    {
+        cout << "End node not found in graph: " << node << endl;
+        return nullptr;
+    }
+
+    EdgeSet *startNodeEdges = &this->adjacencyList.at(node);
+
+    if (startNodeEdges->empty())
+    {
+        cout << "Tried to start a search for node " << node << " from a node with no edges: " << startNode << endl;
+        return nullptr;
+    }
+
+    foundNodes.clear();
+
+    return startNodeEdges;
+}
+
+Edge *Graph::FindNodeDFS(string startNode, string node)
+{
+    EdgeSet *startNodeEdges = this->InitializeSearch(startNode, node);
+
+    if (startNodeEdges == nullptr)
+    {
+        return nullptr;
+    }
+
+    Edge *arbitraryEdge = *(startNodeEdges->begin());
+
+    return this->FindNodeDFSHelper(startNode, node, arbitraryEdge);
+}
+
+Edge *Graph::FindNodeBFS(string startNode, string node)
+{
+    if (this->InitializeSearch(startNode, node) == nullptr)
+    {
+        return nullptr;
+    }
+
+    string currentNode;
+    EdgeSet currentEdges;
+    NodeSet exploredNodes;
+    queue<string> nodeQueue;
+
+    nodeQueue.push(startNode);
+    exploredNodes.insert(startNode);
+
+    while (!nodeQueue.empty())
+    {
+        currentNode = nodeQueue.front();
+        nodeQueue.pop();
+
+        cout << "Exploring edges from node " << currentNode << endl;
+        currentEdges = this->adjacencyList.at(currentNode);
+
+        for (auto &&edge : currentEdges)
+        {
+            if (exploredNodes.count(edge->label) != 0)
+            {
+                cout << "Skipping edge from " << currentNode << " to " << edge->label << endl;
+                continue;
+            }
+
+            if (edge->label == node)
+            {
+                return edge;
+            }
+
+            cout << "Found node " << edge->label << endl;
+            nodeQueue.push(edge->label);
+            exploredNodes.insert(edge->label);
+        }
+
+        cout << "Done exploring node " << currentNode << endl;
+    }
+
+    return nullptr;
 }
 
 Graph::~Graph()
