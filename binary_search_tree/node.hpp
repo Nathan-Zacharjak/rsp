@@ -8,24 +8,11 @@ class Node
 private:
 public:
     int m_data;
-    Node *m_left;
-    Node *m_right;
-    Node *m_parent;
+    Node *m_left = nullptr;
+    Node *m_right = nullptr;
+    Node *m_parent = nullptr;
 
-    Node(int data);
-    ~Node();
+    Node(int data) : m_data(data) {};
 };
-
-Node::Node(int data)
-{
-    m_data = data;
-    m_left = nullptr;
-    m_right = nullptr;
-    m_parent = nullptr;
-}
-
-Node::~Node()
-{
-}
 
 #endif

@@ -9,8 +9,12 @@ using namespace std;
 class Tree
 {
 private:
+    Node *root;
+
 public:
     Tree();
+
+    void InsertNode();
 
     ~Tree();
 };
