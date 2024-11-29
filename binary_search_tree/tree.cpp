@@ -4,21 +4,53 @@
 
 using namespace std;
 
+TreeNode *Tree::GetRoot(void)
+{
+    return this->root.get();
+}
+
 void Tree::InsertNodeHelper(int data, TreeNode *currentNode, TreeNode *currentParent)
 {
     if (currentNode == nullptr)
     {
-        TreeNode *node = new TreeNode;
+        auto newNode = make_unique<TreeNode>(data, currentParent);
 
-        auto var = make_unique<TreeNode>(5, node);
+        if (this->root == nullptr)
+        {
+            this->root = move(newNode);
+        }
 
-        cout << var->data << "\t" << var->parent->data << endl;
         return;
+    }
+
+    if (data < currentNode->data)
+    {
+        this->InsertNodeHelper(data, currentNode->left, currentNode);
+    }
+    else
+    {
+        this->InsertNodeHelper(data, currentNode->parent, currentNode);
     }
 }
 
 void Tree::InsertNode(int data)
 {
-    this->InsertNodeHelper(data, this->root, nullptr);
-    return;
+    this->InsertNodeHelper(data, this->GetRoot(), nullptr);
+}
+
+void Tree::PrintTreeHelper(TreeNode *currentNode)
+{
+    if (currentNode == nullptr)
+    {
+        return;
+    }
+
+    this->PrintTreeHelper(currentNode->left);
+    cout << currentNode->data << endl;
+    this->PrintTreeHelper(currentNode->right);
+}
+
+void Tree::PrintTree(void)
+{
+    this->PrintTreeHelper(this->GetRoot());
 }

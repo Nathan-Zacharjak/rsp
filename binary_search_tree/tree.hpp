@@ -2,12 +2,7 @@
 #define TREE_HPP
 
 // #include "tree_node.hpp"
-enum class TreePrintOrder
-{
-    PRE_ORDER,
-    IN_ORDER,
-    POST_ORDER
-};
+#include <bits/unique_ptr.h>
 
 struct TreeNode
 {
@@ -20,15 +15,17 @@ struct TreeNode
 class Tree
 {
 private:
-    TreeNode *root = nullptr;
+    std::unique_ptr<TreeNode> root;
 
+    TreeNode *GetRoot(void);
     void InsertNodeHelper(int data, TreeNode *currentNode, TreeNode *currentParent);
+    void PrintTreeHelper(TreeNode *);
 
 public:
     Tree() = default;
 
     void InsertNode(int data);
-    void PrintTree(TreePrintOrder order = TreePrintOrder::IN_ORDER);
+    void PrintTree(void);
     TreeNode *SearchTree(int data);
     void DeleteNode(int data);
 
