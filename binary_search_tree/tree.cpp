@@ -119,13 +119,39 @@ Node *Tree::SearchTree(int data, bool findParent)
     return nullptr;
 }
 
-void Tree::Delete0ChildNode(NodePtr nodeToDelete)
-{
-    nodeToDelete.reset();
-}
-
 void Tree::Delete1ChildNode(NodePtr nodeToDelete)
 {
+    Node *parent = nodeToDelete->parent;
+    NodePtr child = nullptr;
+    bool leftChild = false;
+
+    if (nodeToDelete->left != nullptr)
+    {
+        child = move(nodeToDelete->left);
+        leftChild = true;
+    }
+    else
+    {
+        child = move(nodeToDelete->right);
+        leftChild = false;
+    }
+
+    child->parent = parent;
+
+    if (parent == nullptr)
+    {
+        this->root = move(child);
+        return;
+    }
+
+    if (leftChild)
+    {
+        parent->left = move(child);
+    }
+    else
+    {
+        parent->right = move(child);
+    }
 }
 
 void Tree::Delete2ChildNode(NodePtr nodeToDelete)
@@ -152,15 +178,11 @@ void Tree::DeleteNode(int data)
         nodeToDelete = move(parent->right);
     }
 
-    if (nodeToDelete->left == nullptr && nodeToDelete->right == nullptr)
-    {
-        this->Delete0ChildNode(move(nodeToDelete));
-    }
-    else if (nodeToDelete->left != nullptr && nodeToDelete->right != nullptr)
+    if (nodeToDelete->left != nullptr && nodeToDelete->right != nullptr)
     {
         this->Delete2ChildNode(move(nodeToDelete));
     }
-    else
+    else if (nodeToDelete->left != nullptr || nodeToDelete->right != nullptr)
     {
         this->Delete1ChildNode(move(nodeToDelete));
     }

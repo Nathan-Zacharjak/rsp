@@ -17,8 +17,10 @@ int main(int argc, char const *argv[])
     tree.InsertNode(6);
 
     tree.PrintTree();
-    tree.DeleteNode(6);
-    tree.PrintTree();
+    tree.SearchTree(6);
+    cout << "===Deleting node===" << endl;
+    tree.DeleteNode(5);
+    tree.SearchTree(6);
 
     return 0;
 }
