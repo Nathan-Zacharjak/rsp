@@ -17,8 +17,8 @@ int main(int argc, char const *argv[])
     tree.InsertNode(6);
 
     tree.PrintTree();
-
-    tree.SearchTree(0);
+    tree.DeleteNode(6);
+    tree.PrintTree();
 
     return 0;
 }

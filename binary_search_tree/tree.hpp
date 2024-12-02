@@ -1,33 +1,36 @@
 #ifndef TREE_HPP
 #define TREE_HPP
 
-// #include "tree_node.hpp"
-#include <bits/shared_ptr.h>
+#include <bits/unique_ptr.h>
 
-struct TreeNode
+struct Node
 {
     int data = 0;
-    std::shared_ptr<TreeNode> parent = nullptr;
-    std::shared_ptr<TreeNode> left = nullptr;
-    std::shared_ptr<TreeNode> right = nullptr;
+    Node *parent;
+    std::unique_ptr<Node> left = nullptr;
+    std::unique_ptr<Node> right = nullptr;
 };
 
-typedef std::shared_ptr<TreeNode> TreeNodePtr;
+typedef std::unique_ptr<Node> NodePtr;
 
 class Tree
 {
 private:
-    TreeNodePtr root = nullptr;
+    NodePtr root = nullptr;
 
-    void InsertNodeHelper(int data, TreeNodePtr currentNode, TreeNodePtr currentParent, bool isLeftOfParent);
-    void PrintTreeHelper(TreeNodePtr);
+    void InsertNodeHelper(int data, Node *currentNode, Node *currentParent, bool isLeftOfParent);
+    void PrintTreeHelper(Node *currentNode);
+
+    void Delete0ChildNode(NodePtr nodeToDelete);
+    void Delete1ChildNode(NodePtr nodeToDelete);
+    void Delete2ChildNode(NodePtr nodeToDelete);
 
 public:
     Tree() = default;
 
     void InsertNode(int data);
     void PrintTree(void);
-    TreeNodePtr SearchTree(int data);
+    Node *SearchTree(int data, bool findParent = false);
     void DeleteNode(int data);
 
     virtual ~Tree() = default;
