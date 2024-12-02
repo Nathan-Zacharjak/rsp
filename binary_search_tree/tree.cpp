@@ -6,7 +6,7 @@ using namespace std;
 
 void Tree::InsertNodeHelper(int data, TreeNodePtr currentNode, TreeNodePtr currentParent, bool isLeftOfParent)
 {
-    if (currentNode.get() == nullptr)
+    if (currentNode == nullptr)
     {
         auto newNode = make_shared<TreeNode>(data, currentParent);
 
@@ -16,11 +16,11 @@ void Tree::InsertNodeHelper(int data, TreeNodePtr currentNode, TreeNodePtr curre
         }
         else if (isLeftOfParent)
         {
-            currentParent.get()->left = newNode;
+            currentParent->left = newNode;
         }
         else
         {
-            currentParent.get()->right = newNode;
+            currentParent->right = newNode;
         }
 
         return;
