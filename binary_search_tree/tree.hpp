@@ -21,8 +21,8 @@ private:
     void InsertNodeHelper(int data, Node *currentNode, Node *currentParent, bool isLeftOfParent);
     void PrintTreeHelper(Node *currentNode);
 
-    void Delete1ChildNode(NodePtr nodeToDelete);
-    void Delete2ChildNode(NodePtr nodeToDelete);
+    void Delete1ChildNode(NodePtr nodeToDelete, bool leftChild);
+    void Delete2ChildNode(Node *nodeToDelete, bool leftChild);
 
 public:
     Tree() = default;

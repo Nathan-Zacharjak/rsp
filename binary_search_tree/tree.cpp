@@ -60,11 +60,19 @@ void Tree::PrintTree(void)
 
 Node *Tree::SearchTree(int data, bool findParent)
 {
+    cout << "Finding node with data: " << data << endl;
+
     Node *currentNode = this->root.get();
 
     if (currentNode == nullptr)
     {
         cout << "Tried to search an empty tree!" << endl;
+        return nullptr;
+    }
+
+    if (data == this->root->data && findParent)
+    {
+        cout << "Tried to search for the root's parent!" << endl;
         return nullptr;
     }
 
@@ -119,21 +127,18 @@ Node *Tree::SearchTree(int data, bool findParent)
     return nullptr;
 }
 
-void Tree::Delete1ChildNode(NodePtr nodeToDelete)
+void Tree::Delete1ChildNode(NodePtr nodeToDelete, bool leftChild)
 {
     Node *parent = nodeToDelete->parent;
     NodePtr child = nullptr;
-    bool leftChild = false;
 
     if (nodeToDelete->left != nullptr)
     {
         child = move(nodeToDelete->left);
-        leftChild = true;
     }
     else
     {
         child = move(nodeToDelete->right);
-        leftChild = false;
     }
 
     child->parent = parent;
@@ -154,36 +159,89 @@ void Tree::Delete1ChildNode(NodePtr nodeToDelete)
     }
 }
 
-void Tree::Delete2ChildNode(NodePtr nodeToDelete)
+void Tree::Delete2ChildNode(Node *nodeToDelete, bool leftChild)
 {
+    Node *smallestSuccessor = nodeToDelete->right.get();
+
+    while (smallestSuccessor->left != nullptr)
+    {
+        smallestSuccessor = smallestSuccessor->left.get();
+    }
+
+    int smallestSuccessorData = smallestSuccessor->data;
+    this->DeleteNode(smallestSuccessorData);
+    nodeToDelete->data = smallestSuccessorData;
 }
 
 void Tree::DeleteNode(int data)
 {
-    Node *parent = this->SearchTree(data, true);
+    cout << "Deleting node with data: " << data << endl;
+    bool deletingRoot = data == this->root->data;
 
-    if (parent == nullptr)
+    Node *parent = nullptr;
+    if (!deletingRoot)
+    {
+        parent = this->SearchTree(data, true);
+    }
+
+    if (parent == nullptr && !deletingRoot)
     {
         cout << "Couldn't find parent of node to delete with data: " << data << endl;
         return;
     }
 
-    NodePtr nodeToDelete;
-    if (parent->left != nullptr && parent->left->data == data)
+    Node *nodeToDelete = nullptr;
+    bool leftChild = false;
+    if (deletingRoot)
     {
-        nodeToDelete = move(parent->left);
+        nodeToDelete = this->root.get();
+    }
+    else if (parent->left != nullptr && parent->left->data == data)
+    {
+        nodeToDelete = parent->left.get();
+        leftChild = true;
     }
     else
     {
-        nodeToDelete = move(parent->right);
+        nodeToDelete = parent->right.get();
+        leftChild = false;
     }
 
     if (nodeToDelete->left != nullptr && nodeToDelete->right != nullptr)
     {
-        this->Delete2ChildNode(move(nodeToDelete));
+        cout << "Is a 2 child node." << endl;
+        this->Delete2ChildNode(nodeToDelete, leftChild);
     }
     else if (nodeToDelete->left != nullptr || nodeToDelete->right != nullptr)
     {
-        this->Delete1ChildNode(move(nodeToDelete));
+        cout << "Is a 1 child node." << endl;
+        if (deletingRoot)
+        {
+            this->Delete1ChildNode(move(this->root), leftChild);
+        }
+        else if (leftChild)
+        {
+            this->Delete1ChildNode(move(parent->left), leftChild);
+        }
+        else
+        {
+            this->Delete1ChildNode(move(parent->right), leftChild);
+        }
+    }
+    else
+    {
+        cout << "Is a 0 child node." << endl;
+        if (deletingRoot)
+        {
+            this->root.reset();
+        }
+        else if (leftChild)
+        {
+            parent->left.reset();
+        }
+        else
+        {
+            parent->right.reset();
+        }
     }
 }

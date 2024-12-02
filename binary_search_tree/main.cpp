@@ -11,15 +11,16 @@ int main(int argc, char const *argv[])
     tree.InsertNode(3);
     tree.InsertNode(1);
     tree.InsertNode(2);
-    tree.InsertNode(1);
-    tree.InsertNode(4);
+    tree.InsertNode(0);
     tree.InsertNode(5);
     tree.InsertNode(6);
+    tree.InsertNode(4);
 
     tree.PrintTree();
     tree.SearchTree(6);
-    cout << "===Deleting node===" << endl;
-    tree.DeleteNode(5);
+    cout << "===Deleting Node===" << endl;
+    tree.DeleteNode(3);
+    cout << "===Finished Deleting===" << endl;
     tree.SearchTree(6);
 
     return 0;
