@@ -1,6 +1,7 @@
 #include <iostream>
 #include "node.hpp"
 
+// Only "use" the functions you are actually using, NOT "using namespace std;"...
 using std::cout, std::endl, std::string;
 
 int main(int argc, char const *argv[])
