@@ -18,6 +18,11 @@ class Trie
 private:
     std::unique_ptr<TrieNode> _root{std::make_unique<TrieNode>()};
 
+    TrieNode *InitSearch(std::string &word);
+    TrieNode *GetChild(TrieNode *node, const char letter);
+    void MakeChild(TrieNode *node, const char letter);
+    unsigned int GetIndex(const char letter);
+
 public:
     Trie() = default;
 

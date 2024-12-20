@@ -10,5 +10,7 @@ int main(int argc, char const *argv[])
     trie.Insert("Helloo");
     trie.Insert("Hell");
 
+    trie.Find("Hello");
+
     return 0;
 }
