@@ -11,6 +11,11 @@ int main(int argc, char const *argv[])
     trie.Insert("Hell");
 
     trie.Find("Hello");
+    trie.Find("");
+    trie.Find("H");
+    trie.Find("Hell");
+    trie.Find("Helloo");
+    trie.Find("Hellooo");
 
     return 0;
 }

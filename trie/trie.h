@@ -9,7 +9,7 @@ constexpr int ALPHABET_SIZE = 26;
 
 struct TrieNode
 {
-    std::array<std::unique_ptr<TrieNode>, ALPHABET_SIZE> children;
+    std::array<std::unique_ptr<TrieNode>, ALPHABET_SIZE> children{nullptr};
     bool wordEnd{false};
 };
 

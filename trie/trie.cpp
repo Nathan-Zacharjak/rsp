@@ -77,5 +77,17 @@ bool Trie::Find(string word)
         return false;
     }
 
-    return false;
+    for (const auto &letter : word)
+    {
+        currentNode = GetChild(currentNode, letter);
+
+        if (currentNode == nullptr)
+        {
+            cout << "Next letter for word: " << word << ", " << letter << " not found! Returning false...\n";
+            return false;
+        }
+    }
+
+    cout << "End of word, found: " << currentNode->wordEnd << "\n";
+    return currentNode->wordEnd;
 }
