@@ -28,8 +28,7 @@ public:
 
     void Insert(std::string word);
     bool Find(std::string word);
-    void Remove(std::string word);
-    bool StartsWith(std::string word);
+    bool FindPrefix(std::string prefix);
 
     virtual ~Trie() = default;
 };

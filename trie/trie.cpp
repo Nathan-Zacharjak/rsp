@@ -93,28 +93,28 @@ bool Trie::Find(string word)
     return currentNode->wordEnd;
 }
 
-void Trie::Remove(string word)
+bool Trie::FindPrefix(string prefix)
 {
-    cout << "=== Removing: " << word << " ===\n";
+    cout << "=== StartsWith: " << prefix << " ===\n";
 
-    auto currentNode = InitSearch(word);
+    auto currentNode = InitSearch(prefix);
 
     if (currentNode == nullptr)
     {
-        return;
+        return false;
     }
 
-    for (const auto &letter : word)
+    for (const auto &letter : prefix)
     {
         currentNode = GetChild(currentNode, letter);
 
         if (currentNode == nullptr)
         {
-            cout << "Next letter for word: " << word << ", " << letter << " not found!\n";
-            return;
+            cout << "Next letter for prefix: " << prefix << ", " << letter << " not found! Returning false...\n";
+            return false;
         }
     }
 
-    cout << "Found " << word << " setting end of word to false...\n";
-    currentNode->wordEnd = false;
+    cout << "Whole prefix traversed! Returning true...\n";
+    return true;
 }
