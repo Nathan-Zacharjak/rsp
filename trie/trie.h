@@ -1,0 +1,32 @@
+#ifndef TRIE_H
+#define TRIE_H
+
+#include <bits/unique_ptr.h>
+#include <string>
+#include <array>
+
+constexpr int ALPHABET_SIZE = 26;
+
+struct TrieNode
+{
+    std::array<std::unique_ptr<TrieNode>, ALPHABET_SIZE> children;
+    bool wordEnd{false};
+};
+
+class Trie
+{
+private:
+    std::unique_ptr<TrieNode> _root{std::make_unique<TrieNode>()};
+
+public:
+    Trie() = default;
+
+    void Insert(std::string word);
+    bool Find(std::string word);
+    void Remove(std::string word);
+    bool StartsWith(std::string word);
+
+    virtual ~Trie() = default;
+};
+
+#endif
