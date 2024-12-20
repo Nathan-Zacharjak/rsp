@@ -89,5 +89,32 @@ bool Trie::Find(string word)
     }
 
     cout << "End of word, found: " << currentNode->wordEnd << "\n";
+
     return currentNode->wordEnd;
+}
+
+void Trie::Remove(string word)
+{
+    cout << "=== Removing: " << word << " ===\n";
+
+    auto currentNode = InitSearch(word);
+
+    if (currentNode == nullptr)
+    {
+        return;
+    }
+
+    for (const auto &letter : word)
+    {
+        currentNode = GetChild(currentNode, letter);
+
+        if (currentNode == nullptr)
+        {
+            cout << "Next letter for word: " << word << ", " << letter << " not found!\n";
+            return;
+        }
+    }
+
+    cout << "Found " << word << " setting end of word to false...\n";
+    currentNode->wordEnd = false;
 }

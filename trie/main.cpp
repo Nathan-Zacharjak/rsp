@@ -17,5 +17,10 @@ int main(int argc, char const *argv[])
     trie.Find("Helloo");
     trie.Find("Hellooo");
 
+    trie.Remove("");
+    trie.Remove("Hellooo");
+    trie.Remove("Hello");
+    trie.Remove("H");
+
     return 0;
 }
